@@ -1,0 +1,22 @@
+name: Godot validation
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install verified Godot 4.5.2
+        shell: pwsh
+        run: ./tools/setup.ps1
+      - name: Import and validate
+        shell: pwsh
+        run: ./tools/test.ps1
+
