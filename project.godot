@@ -1,0 +1,67 @@
+; NULL RELAY — Godot 4.5.2 Standard
+config_version=5
+
+[application]
+config/name="NULL RELAY - 残響回線"
+config/version="0.1.0"
+run/main_scene="res://scenes/boot/main.tscn"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+config/use_custom_user_dir=true
+config/custom_user_dir_name="NullRelay"
+
+[autoload]
+SettingsManager="*res://scripts/core/settings_manager.gd"
+GameState="*res://scripts/core/game_state.gd"
+SaveManager="*res://scripts/core/save_manager.gd"
+SceneRouter="*res://scripts/core/scene_router.gd"
+FeedbackManager="*res://scripts/effects/feedback_manager.gd"
+
+[display]
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+window/stretch/scale_mode="integer"
+
+[input]
+move_left={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":65), Object(InputEventKey,"physical_keycode":4194319)]}
+move_right={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":68), Object(InputEventKey,"physical_keycode":4194321)]}
+jump={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":32)]}
+dash={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":4194325)]}
+slide={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":83), Object(InputEventKey,"physical_keycode":4194326)]}
+dodge={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":4194328)]}
+fire={"deadzone": 0.2, "events": [Object(InputEventMouseButton,"button_index":1)]}
+melee={"deadzone": 0.2, "events": [Object(InputEventMouseButton,"button_index":2)]}
+reload={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":82)]}
+weapon_next={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":81)]}
+weapon_1={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":49)]}
+weapon_2={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":50)]}
+interact={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":69)]}
+throw_weapon={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":71)]}
+finisher={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":70)]}
+pause={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":4194305)]}
+fullscreen={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":4194342)]}
+restart={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":4194336)]}
+
+[physics]
+common/physics_ticks_per_second=120
+common/physics_interpolation=true
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.031, 0.059, 0.106, 1)
+
+[audio]
+default_bus_layout="res://audio/default_bus_layout.tres"
+
+[layer_names]
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Projectile"
+2d_physics/layer_5="Interactable"
