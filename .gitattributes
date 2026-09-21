@@ -5,4 +5,4 @@
 *.ogg binary
 *.exe binary
 *.pck binary
-
+*.cmd text eol=crlf

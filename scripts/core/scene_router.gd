@@ -5,6 +5,7 @@ const SCENES := {
 	"settings": "res://scenes/ui/settings.tscn",
 	"calibration": "res://scenes/ui/calibration.tscn",
 	"credits": "res://scenes/ui/credits.tscn",
+	"training": "res://scenes/levels/training.tscn",
 }
 var return_screen := "title"
 var transitioning := false
@@ -16,6 +17,7 @@ func go(screen: String) -> Error:
 	if transitioning:
 		return ERR_BUSY
 	transitioning = true
+	FeedbackManager.reset()
 	get_tree().paused = false
 	Engine.time_scale = 1.0
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -26,4 +28,3 @@ func go(screen: String) -> Error:
 
 func _unlock() -> void:
 	transitioning = false
-

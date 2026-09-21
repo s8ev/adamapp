@@ -39,18 +39,24 @@ scenes/
   ui/                    # 設定と開発用チェック画面
 scripts/
   core/                  # 設定、シーン遷移
-  input/                 # 入力アクション定義
+  player/                # 移動、状態描画、カメラ（PHASE 1追加）
+  levels/                # 訓練場と地形データ（PHASE 1追加）
+  effects/               # 時間効果・シェイク通知（PHASE 1追加）
   ui/                    # 画面ごとの振る舞い、共通UI
   visuals/               # コードで描く2Dピクセルアート
 assets/
   fonts/                 # 日本語ドットフォントとライセンス
+ui/                      # ピクセルUIテーマ
+audio/                   # バス構成（音素材は後続フェーズ）
 tests/                   # GDScriptによる独立した検証
 tools/                   # 再現可能な導入、起動、検証
 docs/                    # 仕様、判断、検証証跡
 .github/workflows/       # 自動検証
 ```
 
-必要になったフェーズで `actors/player`、`actors/enemies`、`combat`、`dialogue`、
+基本InputMapはproject.godotに定義済み。入力再設定時に専用モジュールを追加する。
+scenes/actors/player.tscnとscenes/levels/training.tscnはPHASE 1で実装した。
+必要になったフェーズで `actors/enemies`、`combat`、`dialogue`、
 `story`、`save`、`audio`、`effects` をscripts/scenesに追加する。
 `resources/weapons`、`data/dialogue`、`data/chapters`、`assets/sprites`、
 `assets/tilesets`、`assets/audio` も実データを作る際に追加する。
@@ -69,4 +75,3 @@ ROADMAPのPHASE 0–17を順守。PHASE 10合格前のM02–08は文書設計だ
 - 起動可能な小さな基盤を実装し、設計がGodot上で成立することを確認する。
 - シーン・設定・入力を分離し、保存破損、画面遷移、フォント表示を検証する。
 - 既存コミットを残し、機能ごとのコミットをGitHubへ反映する。
-

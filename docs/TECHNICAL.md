@@ -23,7 +23,7 @@ Input.use_accumulated_input=false。押下をbufferへ記録し、次の物理ti
 
 ## 依存の方向
 
-現在のautoloadはSettingsManager、GameState、SaveManager、SceneRouter。
+現在のautoloadはSettingsManager、GameState、SaveManager、SceneRouter、FeedbackManager。
 基本InputMapはproject.godotへ静的に定義する。
 UI→autoload/共通UI。UI間はSceneRouter経由。描画ノードは物語や保存を知らない。
 設定のディスク入出力はSettingsStoreへ分離。純粋な検証ロジックはノードに依存させない。
@@ -56,7 +56,13 @@ line_id、speaker、text_key、emotion、speed_multiplier、pause_marks、choice
 ## シーン構成
 
 boot/main→title。各画面は独立PackedScene、遷移時に旧画面を解放する。
-現段階はtitle/settings/calibration/creditsだけ。未実装のNEW GAMEやCONTINUEを実装済みに見せない。
+現段階はtitle/settings/calibration/credits/training。訓練開始・再開のみ提供し、本編の開始に見せない。
+RelayPlayerはCharacterBody2D。足元を原点にし、低姿勢では矩形当たり判定を縮める。
+天井に立ち上がる空間がなければ低姿勢を維持。復帰時の古い接地情報をコヨーテ時間に使わない。
+PlayerVisualは運動状態を読み、ピクセル図形と足運び、方向、残像を描く。
+CameraRigは物理tickで追従し補間。FeedbackManagerの実時間deadlineでヒットストップを解除する。
+訓練は画面外落下をチェックポイントへ戻し、復帰/ポーズ/遷移で時間効果と入力バッファをクリア。
+訓練用シーンのrootとHUDはポーズ中にも動作、player/camera/artは明示的に停止する。
 後続のmission_rootはLevel/Actors/Projectiles/Effects/Camera/CanvasLayerを分ける。
 セーブ時の参照にはnode pathではなく安定したIDを使う。
 
@@ -67,3 +73,10 @@ GitHub mainを正本とし、開発ブランチ→検証→PR。force pushと無
 テストは専用一時ファイルを使い、実際のユーザー設定やセーブを変更しない。
 初期CIはheadless import/テスト/boot。レンダー、入力体感、モニター性能は実機QAで別扱い。
 画面キャプチャはGodot自身のviewportから取得。テスト用コマンドは開発用引数で明示する。
+
+## GitHub反映方法
+
+この環境のgit CLIにはpush認証がないため、接続済みGitHub機能のblob/tree/commit/refを使用。
+公開前後にtree SHAがローカルと一致することを検証する。作者設定は接続先アカウントに従う。
+ローカル作業内容が同一であることを確認した上で、GitHubで確定したコミット履歴へ整合する。
+開発ブランチはfeature/null-relay-foundation。mainへのマージは別の操作であり、pushとは区別する。

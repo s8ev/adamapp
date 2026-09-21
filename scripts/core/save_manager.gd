@@ -6,6 +6,8 @@ var message := ""
 
 
 func has_save() -> bool:
+	if OS.get_cmdline_user_args().has("--qa-isolation"):
+		return false
 	return JsonStore.read(PATH, GameState.valid).ok
 
 
@@ -25,4 +27,3 @@ func load_checkpoint() -> bool:
 		return false
 	message = "バックアップから記録を復旧しました" if result.recovered else "記録を読み込みました"
 	return GameState.restore(result.data)
-

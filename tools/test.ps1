@@ -6,11 +6,16 @@ if (!(Test-Path -LiteralPath $Godot)) { throw 'Run tools/setup.ps1 first, or sup
 $taskVersion = & $Godot --version
 if ($taskVersion -notmatch '^4\.5\.2\.stable') { throw "Unexpected engine: $taskVersion" }
 New-Item -ItemType Directory -Force -Path (Join-Path $taskRoot 'artifacts/qa') | Out-Null
+New-Item -ItemType File -Force -Path (Join-Path $taskRoot 'artifacts/.gdignore') | Out-Null
 $taskChecks = @(
     @{ Name = 'import'; Args = @('--headless', '--path', $taskRoot, '--editor', '--import', '--quit') },
     @{ Name = 'foundation'; Args = @('--headless', '--path', $taskRoot, '--script', 'res://tests/test_foundation.gd', '--', '--qa-isolation') },
     @{ Name = 'boot'; Args = @('--headless', '--path', $taskRoot, '--', '--smoke', '--qa-isolation') }
 )
+foreach ($taskFps in @(60, 120, 144, 165, 240, 360, 1000)) {
+    $taskChecks += @{ Name = "movement_$taskFps"; Args = @('--headless', '--path', $taskRoot, '--fixed-fps', "$taskFps", '--script', 'res://tests/test_movement.gd', '--', '--qa-isolation') }
+}
+$taskChecks += @{ Name = 'traversal'; Args = @('--headless', '--path', $taskRoot, '--fixed-fps', '120', '--script', 'res://tests/playthrough_training.gd', '--', '--qa-isolation') }
 foreach ($taskCheck in $taskChecks) {
     $taskArgs = $taskCheck.Args
     $taskOutput = & $Godot @taskArgs 2>&1
@@ -20,4 +25,3 @@ foreach ($taskCheck in $taskChecks) {
     if ($taskCode -ne 0 -or ($taskOutput -join "`n") -match '(SCRIPT ERROR:|ERROR:|FAIL:)') { throw "Failed: $($taskCheck.Name)" }
 }
 Write-Output 'PASS: All foundation checks.'
-

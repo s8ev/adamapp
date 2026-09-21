@@ -13,7 +13,7 @@ func _ready() -> void:
 	PixelUI.label(self, "入力 / 描画 / 日本語フォントの確認", Vector2(28, 65))
 	info = PixelUI.label(self, "", Vector2(28, 105))
 	inputs = PixelUI.label(self, "", Vector2(28, 169), 16, PixelUI.AMBER)
-	PixelUI.label(self, "マウスを動かし、キーを押してください。\nゲーム本編のアクションは未実装です。", Vector2(28, 219), 16, PixelUI.MUTED)
+	PixelUI.label(self, "マウスを動かし、キーを押してください。\n移動訓練はタイトルから開始できます。", Vector2(28, 219), 16, PixelUI.MUTED)
 	PixelUI.button(self, "タイトルへ / ESC", Vector2(28, 310), 240, func(): SceneRouter.go("title")).grab_focus()
 
 
@@ -42,4 +42,3 @@ func _draw() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		SceneRouter.go("title")
-

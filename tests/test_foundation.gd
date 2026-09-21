@@ -59,6 +59,11 @@ func _run() -> void:
 	var state := root.get_node("GameState")
 	var snapshot: Dictionary = state.snapshot()
 	check(state.restore(snapshot), "state round trip")
+	var save_path := base + "_save"
+	check(JsonStore.write(save_path, snapshot, state.valid) == OK, "persist game snapshot")
+	var loaded := JsonStore.read(save_path, state.valid)
+	check(loaded.ok and state.restore(loaded.data), "load JSON game snapshot")
+	DirAccess.remove_absolute(save_path)
 	snapshot.flags.saved_target = true
 	snapshot.flags.killed_target = true
 	check(not state.restore(snapshot), "reject contradictory flags")
